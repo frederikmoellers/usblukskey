@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Copy this file to /etc/initramfs-tools/hooks/ and make sure it is executable
+
+# copy usblukskey to initramfs
+mkdir -p "${DESTDIR}/etc"
+cp -rp "/etc/usblukskey" "${DESTDIR}/etc/"
+mkdir -p "${DESTDIR}/usr/local/bin"
+cp -p "/usr/local/bin/usbLUKSkey" "${DESTDIR}/usr/local/bin/"

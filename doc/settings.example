@@ -1,0 +1,13 @@
+# This is an example settings file
+# Copy this to /etc/usblukskey/settings and edit it to Your needs
+
+# Your USB device as it appears in /dev/disk/by-id
+Device ID=usb-Blabla_lulululululu-0:0
+# Your key length in bytes
+Key Length=5
+# The offset of Your key on the device (in bytes)
+Key Offset=27
+# The prompt to be displayed when asking for the passphrase
+Passphrase Prompt=Please unlock disk sda2_crypt: 
+# How often (ms) to check if the USB device is present
+Polling Interval=200

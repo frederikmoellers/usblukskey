@@ -1,0 +1,24 @@
+Q: Why do You use system() to load the module and not some native C interfaces?
+
+A: There's a (small) discussion about this here:
+   http://stackoverflow.com/questions/5947286/how-can-linux-kernel-modules-be-loaded-from-c-code
+   While I do believe that one shouldn't use system() where it can be avoided,
+   I don't think there's a better way of loading a module. init_module() can be
+   used to load a module, but for this we need the module data or at least the
+   module file. In order to find that, we'd have to search the modules of the
+   current kernel etc. As You can see, it would get way more complicated and
+   modprobe takes all this work from us. So in this case, system() is actually
+   the cleanest way to load a module.
+
+
+Q: Why do You use semaphores instead of mutexes?
+
+A: Mutexes have to be locked and unlocked within the same thread. Also, mutexes
+   have to be destroyed before being deleted. Both these constraints are
+   problematic in this program and semaphores are a possible and easy solution.
+
+
+Q: Why do You use CMake for such a small application?
+
+A: I wanted to try it and this seemed like a good place to start. Also, it
+   reduces the installation effort for users to 1 command: make install.
