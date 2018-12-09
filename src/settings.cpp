@@ -67,7 +67,7 @@ void SettingsContainer::defaults()
     this->settings[DEVICE_ID] = {SETTING_TYPE_STRING, new std::string("there-is-no-good-default")};
     this->settings[KEY_LENGTH] = {SETTING_TYPE_SIZET, new size_t(8192)};
     this->settings[KEY_OFFSET] = {SETTING_TYPE_SIZET, new size_t(0)};
-    this->settings[PASSPHRASE_PROMPT] = {SETTING_TYPE_STRING, new std::string("Please unlock disk sda2_crypt: ")};
+    this->settings[PASSPHRASE_PROMPT] = {SETTING_TYPE_STRING, new std::string("")};
     this->settings[POLLING_INTERVAL] = {SETTING_TYPE_SIZET, new size_t(200)};
 }
 

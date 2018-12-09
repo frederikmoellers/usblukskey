@@ -2,6 +2,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/interprocess/sync/interprocess_semaphore.hpp>
 #include <boost/thread.hpp>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <termios.h>
@@ -42,15 +43,32 @@ void passphrase_key(SettingsContainer const * settings)
     // sleep 2 secs to decrease the chance of other output appearing after our prompt
     boost::this_thread::sleep_for(boost::chrono::milliseconds(2000));
     // prompt
-    std::cerr << settings->passphrase_prompt();
+    std::string prompt = settings->passphrase_prompt();
+    if(prompt.empty())
+    {
+        std::cerr << "Please unlock disk";
+        const char* crypttab_name = std::getenv("CRYPTTAB_NAME");
+        if(crypttab_name != NULL)
+        {
+            std::cerr << " " << crypttab_name;
+        }
+        std::cerr << ": ";
+    }
+    else
+    {
+        std::cerr << prompt;
+    }
+    // read passphrase
     std::string passphrase;
-    // turn off echo, read passphrase, turn on echo
+    // turn off echo
     struct termios tcattr;
     tcgetattr(STDIN_FILENO, &tcattr);
     struct termios tcattr_noecho = tcattr;
     tcattr_noecho.c_lflag &= ~ECHO;
     tcsetattr(STDIN_FILENO, TCSANOW, &tcattr_noecho);
+    // read passphrase
     std::getline(std::cin, passphrase);
+    // turn on echo
     tcsetattr(STDIN_FILENO, TCSANOW, &tcattr);
     printd("\nRead passphrase");
     // if the lock is taken, we can abort
